@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.auth.oauth2.AccessToken;
 import com.google.auth.oauth2.GoogleCredentials;
@@ -183,9 +184,14 @@ public class SpeechAPI {
             return;
         }
         // Call the streaming recognition API
-        mRequestObserver.onNext(StreamingRecognizeRequest.newBuilder()
-                .setAudioContent(ByteString.copyFrom(data, 0, size))
-                .build());
+        try {
+            mRequestObserver.onNext(StreamingRecognizeRequest.newBuilder()
+                    .setAudioContent(ByteString.copyFrom(data, 0, size))
+                    .build());
+        }
+        catch (Exception e ){
+            Toast.makeText(mContext,e.getMessage(),Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
